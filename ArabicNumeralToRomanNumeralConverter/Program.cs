@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Two_katas
+namespace ArabicNumeralToRomanNumeralConverter
 {
     class Program
     {
