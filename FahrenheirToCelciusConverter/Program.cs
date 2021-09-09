@@ -9,4 +9,10 @@ namespace FahrenheirToCelciusConverter
             Console.WriteLine("Hello World!");
         }
     }
+
+    public class TemperatureConverter
+    {
+        public double ToCelcius(double fahrenheirValue)
+            => (fahrenheirValue - 32.0d) / 1.8d;
+    }
 }
