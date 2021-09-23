@@ -3,10 +3,11 @@
 - The woman missed
 - The woman did not hit a vital spot
 - The gun wound itself was not vital
-- There man was saved before he died (medics or he was driven to a hospital)
-- The gun was not firing deadly bullets (Airsoft gun or Nerf gun)
+- There man was saved before he died (by medics or he was driven to a hospital)
+- The gun was not firing deadly bullets (Airsoft gun, warter gun or Nerf gun)
 - The man was wearing protective gear
 - The man was hiding behind something impenetrable
+- The man was already dead
 
 ### Extreme possibilities
 - The man a unkillable, unwoundable, immortal, etc.
@@ -14,17 +15,25 @@
 - The bullet could not reach the man, i.e. the woman was too far away
 
 ## Alien
-Toothbrush and and toothpaste are placed infront of you.
+Prerequisite: toothbrush and toothpaste are placed in front of you.
 
 1. Pickup toothbrush with one of your hands
-0. Pickup the toothpaste in your other hand
+0. Pick up the toothpaste in your other hand
 0. Apply toothpaste to brush part of toothbrush
 0. Put toothpaste down again.
-0. Move brush side infront of mouth
+0. Move brush side in front of mouth
 0. Open mouth
-0. Gently press brush against teeth
-0. Move the brush back and fought alongside the teeth
-0. Repeat until your have brushed all teeth
+0. Gently press brush against front of upper right teeth
+0. Move the brush in a circular motion back and fought
+0. Do this for 10 seconds
+0. Repeat step 7-9 on lower right, middle upper, middle lower, left upper, left lower teeth
+0. Now turn tooth brush around.
+0. Gently press brush against back side of upper right teeth
+0. Move the brush in a circular motion back and fought
+0. Repeat step 12-13 on lower right, middle upper, middle lower, left upper, left lower teeth
+0. Move toothbrush out from mouth
+0. Put toothbrush down
+0. Spit toothpaste inside your mouth out into a sink
 0. You're done!
 
 ## Throughts on TDD
