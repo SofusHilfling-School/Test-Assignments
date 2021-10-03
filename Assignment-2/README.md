@@ -17,5 +17,18 @@ Here is a list of possible tests that could be performed when making a new mouse
     - Usual software testing on the costimzation software including unit tests and user tests
 
 ## Catastrophic failure
+
+
 ## JUnit 5
+- **@Tag** - Tells JUnit to group test methods with the same tags, this makes it possible to only run certen groups of test and exclude others. This can be used to exclude integration tests in a local dev enviornment and only run them when as part of a build pipeline.
+- **@Disabled** - Tells JUnit to not run the test. Disablining test can be useful if we temporaryly want to disable some test because a feature has been pushed to a later date.
+- **@RepeatedTest** - Tells JUnit to run a test multiple times, this depends on the number specified e.g. @RepeartedTest(5) will make a test that runs 5 times. This is useful if we want to test that something behaves the same way even after multiple attempts.
+- **@BeforeEach** - Tells JUnit to run the test before each test, this inclueds @Test, @RepeatedTest, @ParameterizedTest, & @TestFactory. This can be useful for initalising some tests objects used by multiple tests.
+- **@AfterEach** - Same as @BeforeEach but runs after each test instead of before. Instead of being used to inialize, @AfterEach can be used on tear down methods that undo the changes made by a test.
+- **@BeforeAll** - Tells JUnit to run the test one time before all other test are run, this includes @Test, @RepeatedTest, @ParameterizedTest, & @TestFactory. @BeforeAll can be useful when making integration tests, if we need the application we a integrating with to be in a spcific state before all tests a run. @BeforeAll can be used for that.
+- **@AfterAll** - Same as @BeforeAll but runs after all test have completed instead of before. @AfterAll can be used to clean up the changes made by our tests or to close a db connection.
+- **@DisplayName** - Set a display name of when the test reports it result back and is shown by the test runner and the IDEs. A display name makes it possible to write names with spaces and special charecters like !@$ or emojis 🤯 
+- **@Nested** - Is used when making test classed instead other test classed. This can be used to give the test a hierarchical output when displayed in a IDE. ![Picture of test results shown in a IDE](https://junit.org/junit5/docs/current/user-guide/images/writing-tests_nested_test_ide.png)
+- **assumeFalse() & assumeTrue()** - Are both part of JUnit 5's [Assumption class](https://junit.org/junit5/docs/5.0.0/api/org/junit/jupiter/api/Assumptions.html). Compared to normal assertions, assumptions do not result in a test failure. Instead they results in the test being aborted. This can be useful in instances where continuing the execution of a test dosnt make sence if a condition isnt true or false. E.g. if the network is down it wouldnt make sense to contiue an integration test because it would fail regardless of the actual test.
+
 ## Mocking framework comparison
