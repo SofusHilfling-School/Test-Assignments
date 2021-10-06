@@ -1,4 +1,4 @@
-# Test-Assignment-1
+# Test assignment 2
 
 ## Computer mouse
 Here is a list of possible tests that could be performed when making a new mouse:
