@@ -20,6 +20,16 @@ Here is a list of possible tests that could be performed when making a new mouse
 ## Catastrophic failure
 
 
+> At approximately midnight Pacific Standard Time, on December 31, 2008, Zune 30s froze. The problem was caused by a third-party driver written by Freescale for their MC13783 PMIC processor. The bug also froze up Toshiba Gigabeat S media players that shared the same Freescale device and driver. The exact cause was first discovered by itsnotabigtruck of Zune Boards. What itsnotabigtruck found out was that there was an if statement inside a while loop that was written in such a way that on that particular day, because it was a leap year and the day count was 366, the loop was destined to continuously self-execute until the 24 hours of that day were up. People who experienced the problem gave the event many names, among them Z2K9, Y2K9, Z2K, the Zune Screen of Death, Zunepocalypse, and the December 31st, 2008 Zune Meltdown.
+>
+> Microsoft posted a comment on the support front page stating the issue is because 2008 is a leap year, and a firmware clock driver used by the Zune 30 improperly handled the last day of a leap year, causing the player to freeze. The driver was for a part used only in the Zune 30 model, which was why the bug didn't affect other Zune models. The official fix was to drain the device battery and then recharge after midday GMT on January 1, 2009.
+> 
+> \- [Wikipedia](https://en.wikipedia.org/wiki/Zune_30#:~:text=Freescale%20Driver%20Issue)
+
+This incident obviously happened because of a lack of basic testing. An obvious edge case to software that works with time/days is the occurrence of a leap year with an extra day. If a practice like TTD had been used this issue could likely have been prevented and thereby saving Microsoft potential millions in things like brand perception.
+
+TDD and unit testing would of cause not have been a guaranteed way of preventing the issue from happening, but it would likely have minimized the possibility to such a degree that it wouldn’t happen.  
+
 ## JUnit 5
 - **@Tag** - Tells JUnit to group test methods with the same tags, this makes it possible to only run certen groups of test and exclude others. This can be used to exclude integration tests in a local dev enviornment and only run them when as part of a build pipeline.
 - **@Disabled** - Tells JUnit to not run the test. Disablining test can be useful if we temporaryly want to disable some test because a feature has been pushed to a later date.
