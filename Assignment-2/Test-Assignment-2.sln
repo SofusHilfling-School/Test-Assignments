@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringUtilities", "StringUtilities\StringUtilities.csproj", "{D2A2C378-AFB7-4C8A-8E22-7BA76DDDB923}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringUtilities", "StringUtilities\StringUtilities.csproj", "{D2A2C378-AFB7-4C8A-8E22-7BA76DDDB923}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StringUtilitiesTests", "StringUtilitiesTests\StringUtilitiesTests.csproj", "{5D034B4C-8815-4CD0-8F5E-536AE161A074}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StringUtilitiesTests", "StringUtilitiesTests\StringUtilitiesTests.csproj", "{5D034B4C-8815-4CD0-8F5E-536AE161A074}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BowlingGameTests", "BowlingGameTests\BowlingGameTests.csproj", "{5908CEDE-3C87-4763-863B-C7CBA65EE6E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{5D034B4C-8815-4CD0-8F5E-536AE161A074}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5D034B4C-8815-4CD0-8F5E-536AE161A074}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5D034B4C-8815-4CD0-8F5E-536AE161A074}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5908CEDE-3C87-4763-863B-C7CBA65EE6E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5908CEDE-3C87-4763-863B-C7CBA65EE6E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5908CEDE-3C87-4763-863B-C7CBA65EE6E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5908CEDE-3C87-4763-863B-C7CBA65EE6E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
