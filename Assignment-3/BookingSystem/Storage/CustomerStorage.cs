@@ -25,7 +25,7 @@ namespace BookingSystem
 
         public Customer GetCustomer(int customerId)
         {
-            string sqlQuery = "SELECT id, firstname, lastname FROM Customers WHERE id = @ID";
+            string sqlQuery = "SELECT id, firstname, lastname, birthdate FROM Customers WHERE id = @ID";
             using MySqlConnection conn = new(_connectionString);
             using MySqlCommand command = new(sqlQuery, conn);
 
@@ -34,13 +34,13 @@ namespace BookingSystem
             conn.Open();
             using MySqlDataReader reader = command.ExecuteReader();
             return reader.Read() 
-                ? new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2)) 
+                ? new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3)) 
                 : null;
         }
 
         public List<Customer> GetCustomers()
         {
-            string sqlQuery = "SELECT id, firstname, lastname FROM Customers";
+            string sqlQuery = "SELECT id, firstname, lastname, birthdate FROM Customers";
             using MySqlConnection conn = new(_connectionString);
             using MySqlCommand command = new(sqlQuery, conn);
 
@@ -50,7 +50,7 @@ namespace BookingSystem
             List<Customer> customers = new();
             while(reader.Read())
             {
-                Customer customer = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2));
+                Customer customer = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetValue(3) as DateTime?);
                 customers.Add(customer);
             }
             return customers;
@@ -58,11 +58,12 @@ namespace BookingSystem
 
         public int CreateCustomer(Customer customer)
         {
-            string sqlQuery = "INSERT INTO Customers (firstname, lastname) VALUES (@firstname, @lastname); SELECT last_insert_id()";
+            string sqlQuery = "INSERT INTO Customers (firstname, lastname) VALUES (@firstname, @lastname, @birthdate); SELECT last_insert_id()";
             using MySqlConnection conn = new(_connectionString);
             using MySqlCommand command = new(sqlQuery, conn);
             command.Parameters.AddWithValue("@firstname", customer.Firstname);
             command.Parameters.AddWithValue("@lastname", customer.Lastname);
+            command.Parameters.AddWithValue("@birthdate", customer.Birthdate);
 
             conn.Open();
             return (int)command.ExecuteScalar();

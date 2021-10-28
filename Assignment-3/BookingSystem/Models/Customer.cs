@@ -6,5 +6,5 @@ using System.Threading.Tasks;
 
 namespace BookingSystem.Models
 {
-    public record Customer(int Id, string Firstname, string Lastname);
+    public record Customer(int Id, string Firstname, string Lastname, DateTime? Birthdate);
 }
