@@ -1,0 +1,1 @@
+ALTER TABLE Customers ADD phoneNumber NVARCHAR(255) null;
