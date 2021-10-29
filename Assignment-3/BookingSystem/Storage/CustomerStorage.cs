@@ -66,7 +66,7 @@ namespace BookingSystem
             command.Parameters.AddWithValue("@birthdate", customer.Birthdate);
 
             conn.Open();
-            return (int)command.ExecuteScalar();
+            return (int)(ulong)command.ExecuteScalar();
         }
     }
 }
