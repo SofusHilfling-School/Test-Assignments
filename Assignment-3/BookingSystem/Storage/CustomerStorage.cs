@@ -22,7 +22,7 @@ namespace BookingSystem.Storage
 
         public Customer GetCustomer(int customerId)
         {
-            string sqlQuery = "SELECT id, firstname, lastname, birthdate FROM Customers WHERE id = @ID";
+            string sqlQuery = "SELECT id, firstname, lastname, birthdate, phoneNumber FROM Customers WHERE id = @ID";
             using MySqlConnection conn = new(_connectionString);
             using MySqlCommand command = new(sqlQuery, conn);
 
@@ -31,13 +31,13 @@ namespace BookingSystem.Storage
             conn.Open();
             using MySqlDataReader reader = command.ExecuteReader();
             return reader.Read() 
-                ? new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3)) 
+                ? new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetValue(3) as DateTime?, reader.GetValue(4) as string) 
                 : null;
         }
 
         public List<Customer> GetCustomers()
         {
-            string sqlQuery = "SELECT id, firstname, lastname, birthdate FROM Customers";
+            string sqlQuery = "SELECT id, firstname, lastname, birthdate, phoneNumber FROM Customers";
             using MySqlConnection conn = new(_connectionString);
             using MySqlCommand command = new(sqlQuery, conn);
 
@@ -47,7 +47,7 @@ namespace BookingSystem.Storage
             List<Customer> customers = new();
             while(reader.Read())
             {
-                Customer customer = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetValue(3) as DateTime?);
+                Customer customer = new Customer(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetValue(3) as DateTime?, reader.GetValue(4) as string);
                 customers.Add(customer);
             }
             return customers;
