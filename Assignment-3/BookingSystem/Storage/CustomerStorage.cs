@@ -58,7 +58,7 @@ namespace BookingSystem
 
         public int CreateCustomer(Customer customer)
         {
-            string sqlQuery = "INSERT INTO Customers (firstname, lastname) VALUES (@firstname, @lastname, @birthdate); SELECT last_insert_id()";
+            string sqlQuery = "INSERT INTO Customers (firstname, lastname, birthdate) VALUES (@firstname, @lastname, @birthdate); SELECT last_insert_id()";
             using MySqlConnection conn = new(_connectionString);
             using MySqlCommand command = new(sqlQuery, conn);
             command.Parameters.AddWithValue("@firstname", customer.Firstname);
