@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BookingSystem.Models;
 using MySql.Data.MySqlClient;
 
-namespace BookingSystem
+namespace BookingSystem.Storage
 {
     public interface ICustomerStorage
     {
