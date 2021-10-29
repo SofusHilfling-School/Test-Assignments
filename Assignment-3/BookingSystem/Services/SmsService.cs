@@ -7,7 +7,7 @@ using BookingSystem.Models;
 
 namespace BookingSystem.Services
 {
-    public interface SmsService
+    public interface ISmsService
     {
         bool SendSms(SmsMessage message);
     }
