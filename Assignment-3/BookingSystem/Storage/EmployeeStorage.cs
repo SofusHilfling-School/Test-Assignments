@@ -49,13 +49,13 @@ namespace BookingSystem.Storage
             conn.Open();
             using MySqlDataReader reader = command.ExecuteReader();
 
-            List<Employee> customers = new();
+            List<Employee> employees = new();
             while (reader.Read())
             {
-                Employee customer = new(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetValue(3) as DateTime?);
-                customers.Add(customer);
+                Employee employee = new(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetValue(3) as DateTime?);
+                employees.Add(employee);
             }
-            return customers;
+            return employees;
         }
 
         public int CreateEmployee(Employee employee)
@@ -68,7 +68,7 @@ namespace BookingSystem.Storage
             command.Parameters.AddWithValue("@birthdate", employee.Birthdate);
 
             conn.Open();
-            return (int)command.ExecuteScalar();
+            return (int)(long)command.ExecuteScalar();
         }
     }
 }
