@@ -11,6 +11,8 @@ namespace BookingSystem.Services
     public interface IEmployeeService
     {
         Employee GetEmployee(int employeeId);
+        List<Employee> GetEmployees();
+        IEnumerable<Employee> GetEmployeesByFirstName(string firstname);
         int CreateEmployee(Employee employee);
     }
 
@@ -25,6 +27,12 @@ namespace BookingSystem.Services
 
         public Employee GetEmployee(int employeeId)
             => _employeeStorage.GetEmployee(employeeId);
+
+        public List<Employee> GetEmployees()
+            => _employeeStorage.GetEmployees();
+
+        public IEnumerable<Employee> GetEmployeesByFirstName(string firstname)
+            => _employeeStorage.GetEmployees().Where(x => string.Equals(x.Firstname, firstname, StringComparison.InvariantCultureIgnoreCase));
 
         public int CreateEmployee(Employee employee)
             => _employeeStorage.CreateEmployee(employee);

@@ -10,9 +10,11 @@ namespace BookingSystem.Services
 {
     public interface IBookingService
     {
+        Booking GetBooking(int bookingId);
         List<Booking> GetBookings();
-        List<Booking> GetBookingForCustomer(int customerId);
-        int CreateBooking(Booking booking);
+        IEnumerable<Booking> GetBookingsForEmployee(int employeeId);
+        IEnumerable<Booking> GetBookingsForCustomer(int customerId);
+        int CreateBooking(int customerId, int employeeId, DateTime date, TimeSpan start, TimeSpan end);
     }
 
     public class BookingService: IBookingService
@@ -29,16 +31,22 @@ namespace BookingSystem.Services
         }
 
 
+        public Booking GetBooking(int bookingId)
+            => _bookingStorage.GetBooking(bookingId);
+
         public List<Booking> GetBookings()
             => _bookingStorage.GetBookings();
 
-        public List<Booking> GetBookingForCustomer(int customerId)
-            => _bookingStorage.GetBookings(customerId);
+        public IEnumerable<Booking> GetBookingsForEmployee(int employeeId)
+            => _bookingStorage.GetBookingsForEmployee(employeeId);
 
-        public int CreateBooking(Booking booking)
+        public IEnumerable<Booking> GetBookingsForCustomer(int customerId)
+            => _bookingStorage.GetBookingsForCustomer(customerId);
+
+        public int CreateBooking(int customerId, int employeeId, DateTime date, TimeSpan start, TimeSpan end)
         {
-            int newBookingId = _bookingStorage.CreateBooking(booking);
-            Customer customer = _customerService.GetCustomer(booking.CustomerId);
+            int newBookingId = _bookingStorage.CreateBooking(new Booking(0, customerId, employeeId, date, start, end));
+            Customer customer = _customerService.GetCustomer(customerId);
             _smsService.SendSms(new SmsMessage(customer.PhoneNumber, "Booking was made!"));
             return newBookingId;
         }
