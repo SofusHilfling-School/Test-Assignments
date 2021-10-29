@@ -9,7 +9,7 @@ namespace BookingSystem.Services
 {
     public interface ICustomerService
     {
-        bool CreateCustomer(Customer newCustomer);
+        int CreateCustomer(Customer newCustomer);
         Customer GetCustomer(int id);
         IEnumerable<Customer> GetCustomersByFirstName(string firstname);
     }
@@ -29,7 +29,7 @@ namespace BookingSystem.Services
         public IEnumerable<Customer> GetCustomersByFirstName(string firstname)
             => _customerStorage.GetCustomers().Where(x => x.Firstname.ToLowerInvariant() == firstname.ToLowerInvariant());
 
-        public bool CreateCustomer(Customer newCustomer)
-            => _customerStorage.CreateCustomer(newCustomer) > 0;
+        public int CreateCustomer(Customer newCustomer)
+            => _customerStorage.CreateCustomer(newCustomer);
     }
 }
