@@ -1,5 +1,6 @@
 ﻿using BookingSystem.Models;
 using BookingSystem.Storage;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -16,7 +17,8 @@ namespace BookingSystem.UnitTests.Storage
             //Arrage
             Customer expected = new(1, "John", "Doe", new DateTime(1990, 10, 14), "12345678");
             int customerId = 1;
-            ICustomerStorage storage = new CustomerStorage(connectionString);
+            MySqlConnection connection = new(connectionString);
+            ICustomerStorage storage = new CustomerStorage(connection);
 
             //Act
             Customer customerResult = storage.GetCustomer(customerId);
@@ -29,7 +31,8 @@ namespace BookingSystem.UnitTests.Storage
         public void GetCustomers_RequestAllCustomers_ReturnListWithBookingData()
         {
             //Arrage
-            ICustomerStorage storage = new CustomerStorage(connectionString);
+            MySqlConnection connection = new(connectionString);
+            ICustomerStorage storage = new CustomerStorage(connection);
 
             //Act
             List<Customer> customerResult = storage.GetCustomers();
@@ -43,7 +46,8 @@ namespace BookingSystem.UnitTests.Storage
         {
             //Arrage
             Customer newCustomer = new(0, "Christan", "Smith", new DateTime(1997, 12, 11), "11223344");
-            ICustomerStorage storage = new CustomerStorage(connectionString);
+            MySqlConnection connection = new(connectionString);
+            ICustomerStorage storage = new CustomerStorage(connection);
 
             //Act
             int generatedId = storage.CreateCustomer(newCustomer);

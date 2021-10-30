@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
-using Xunit.Abstractions;
 
 namespace BookingSystem.UnitTests.Storage
 {
@@ -19,7 +18,8 @@ namespace BookingSystem.UnitTests.Storage
             //Arrage
             Booking expected = new(1, 1, 2, new DateTime(2020, 07, 23), new TimeSpan(0, 0, 0), new TimeSpan(23, 59, 59));
             int bookingId = 1;
-            IBookingStorage storage = new BookingStorage(connectionString);
+            MySqlConnection connection = new(connectionString);
+            IBookingStorage storage = new BookingStorage(connection);
 
             //Act
             Booking bookingResult = storage.GetBooking(bookingId);
@@ -33,7 +33,8 @@ namespace BookingSystem.UnitTests.Storage
         {
             //Arrage
             int initialCustomerId = 1;
-            IBookingStorage storage = new BookingStorage(connectionString);
+            MySqlConnection connection = new(connectionString);
+            IBookingStorage storage = new BookingStorage(connection);
 
             //Act
             List<Booking> bookingResult = storage.GetBookingsForCustomer(initialCustomerId);
@@ -48,7 +49,8 @@ namespace BookingSystem.UnitTests.Storage
         {
             //Arrage
             int initialEmployeeId = 1;
-            IBookingStorage storage = new BookingStorage(connectionString);
+            MySqlConnection connection = new(connectionString);
+            IBookingStorage storage = new BookingStorage(connection);
 
             //Act
             List<Booking> bookingResult = storage.GetBookingsForEmployee(initialEmployeeId);
@@ -63,7 +65,8 @@ namespace BookingSystem.UnitTests.Storage
         {
             //Arrage
             Booking newBooking = new(0, 1, 1, new DateTime(2020, 5, 10), new TimeSpan(12, 0, 0), new TimeSpan(12, 30, 00));
-            IBookingStorage storage = new BookingStorage(connectionString);
+            MySqlConnection connection = new(connectionString);
+            IBookingStorage storage = new BookingStorage(connection);
 
             //Act
             int generatedId = storage.CreateBooking(newBooking);
