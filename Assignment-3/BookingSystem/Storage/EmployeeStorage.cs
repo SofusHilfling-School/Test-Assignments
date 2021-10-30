@@ -1,10 +1,7 @@
-﻿using System;
+﻿using BookingSystem.Models;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookingSystem.Models;
-using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace BookingSystem.Storage
 {
@@ -15,26 +12,21 @@ namespace BookingSystem.Storage
         int CreateEmployee(Employee employee);
     }
 
-    public class EmployeeStorage: IEmployeeStorage
+    public class EmployeeStorage: StorageBase, IEmployeeStorage
     {
-        private readonly string _connectionString;
-
-        public EmployeeStorage(string connectionString)
-        {
-            _connectionString = connectionString;
-        }
+        public EmployeeStorage(IDbConnection dbConnection) : base(dbConnection)
+        { }
 
         public Employee GetEmployee(int employeeId)
         {
+            string sqlQuery = "SELECT id, firstname, lastname, birthdate FROM Employees WHERE id = @Id";   
+            using IDbConnection connection = _dbConnection;
+            using IDbCommand command = connection.CreateCommand(sqlQuery);
 
-            string sqlQuery = "SELECT id, firstname, lastname, birthdate FROM Employees WHERE id = @Id";
-            using MySqlConnection conn = new(_connectionString);
-            using MySqlCommand command = new(sqlQuery, conn);
+            command.AddParameterWithValue("@Id", employeeId);
 
-            command.Parameters.AddWithValue("@Id", employeeId);
-
-            conn.Open();
-            using MySqlDataReader reader = command.ExecuteReader();
+            connection.Open();
+            using IDataReader reader = command.ExecuteReader();
             return reader.Read()
                 ? new Employee(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetDateTime(3))
                 : null;
@@ -43,11 +35,11 @@ namespace BookingSystem.Storage
         public List<Employee> GetEmployees()
         {
             string sqlQuery = "SELECT id, firstname, lastname, birthdate FROM Employees";
-            using MySqlConnection conn = new(_connectionString);
-            using MySqlCommand command = new(sqlQuery, conn);
+            using IDbConnection connection = _dbConnection;
+            using IDbCommand command = connection.CreateCommand(sqlQuery);
 
-            conn.Open();
-            using MySqlDataReader reader = command.ExecuteReader();
+            connection.Open();
+            using IDataReader reader = command.ExecuteReader();
 
             List<Employee> employees = new();
             while (reader.Read())
@@ -61,13 +53,14 @@ namespace BookingSystem.Storage
         public int CreateEmployee(Employee employee)
         {
             string sqlQuery = "INSERT INTO Employees (firstname, lastname, birthdate) VALUES (@firstname, @lastname, @birthdate); SELECT last_insert_id()";
-            using MySqlConnection conn = new(_connectionString);
-            using MySqlCommand command = new(sqlQuery, conn);
-            command.Parameters.AddWithValue("@firstname", employee.Firstname);
-            command.Parameters.AddWithValue("@lastname", employee.Lastname);
-            command.Parameters.AddWithValue("@birthdate", employee.Birthdate);
+            using IDbConnection connection = _dbConnection;
+            using IDbCommand command = connection.CreateCommand(sqlQuery);
 
-            conn.Open();
+            command.AddParameterWithValue("@firstname", employee.Firstname);
+            command.AddParameterWithValue("@lastname", employee.Lastname);
+            command.AddParameterWithValue("@birthdate", employee.Birthdate);
+
+            connection.Open();
             return (int)(ulong)command.ExecuteScalar();
         }
     }
