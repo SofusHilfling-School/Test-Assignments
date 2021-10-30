@@ -28,7 +28,7 @@ namespace BookingSystem.Storage
 
         public Booking GetBooking(int bookingId)
         {
-            string sqlQuery = "SELECT id, customerId, employeeId, date, start, end FROM Customers WHERE id = @ID";
+            string sqlQuery = "SELECT id, customerId, employeeId, date, start, end FROM Bookings WHERE id = @ID";
             using MySqlConnection conn = new(_connectionString);
             using MySqlCommand command = new(sqlQuery, conn);
 
