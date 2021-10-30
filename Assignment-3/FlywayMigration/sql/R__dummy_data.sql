@@ -3,11 +3,11 @@ DELETE FROM Employees;
 DELETE FROM Bookings;
 
 
-INSERT INTO Customers (firstname, lastname, birthdate) VALUES 
-    ('John', 'Doe', '1990-10-14'),
-    ('Bob', 'Johnson', '1990-4-6'),
-    ('Jane', 'Doe', '1990-6-30'),
-    ('Alice', 'Christoffersen', '1990-10-28');
+INSERT INTO Customers (firstname, lastname, birthdate, phoneNumber) VALUES 
+    ('John', 'Doe', '1990-10-14', '12345678'),
+    ('Bob', 'Johnson', '1990-4-6', '87654321'),
+    ('Jane', 'Doe', '1990-6-30', '22446688'),
+    ('Alice', 'Christoffersen', '1990-10-28', '11335599');
 
 INSERT INTO Employees (firstname, lastname, birthdate) VALUES
     ('Richard', 'Roe', '1974-5-12'),
