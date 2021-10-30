@@ -55,12 +55,13 @@ namespace BookingSystem.Storage
 
         public int CreateCustomer(Customer customer)
         {
-            string sqlQuery = "INSERT INTO Customers (firstname, lastname, birthdate) VALUES (@firstname, @lastname, @birthdate); SELECT last_insert_id()";
+            string sqlQuery = "INSERT INTO Customers (firstname, lastname, birthdate, phoneNumber) VALUES (@firstname, @lastname, @birthdate, @phonenumber); SELECT last_insert_id()";
             using MySqlConnection conn = new(_connectionString);
             using MySqlCommand command = new(sqlQuery, conn);
             command.Parameters.AddWithValue("@firstname", customer.Firstname);
             command.Parameters.AddWithValue("@lastname", customer.Lastname);
             command.Parameters.AddWithValue("@birthdate", customer.Birthdate);
+            command.Parameters.AddWithValue("@phonenumber", customer.PhoneNumber);
 
             conn.Open();
             return (int)(ulong)command.ExecuteScalar();
