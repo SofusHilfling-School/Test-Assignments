@@ -68,7 +68,7 @@ namespace BookingSystem.Storage
             command.Parameters.AddWithValue("@birthdate", employee.Birthdate);
 
             conn.Open();
-            return (int)(long)command.ExecuteScalar();
+            return (int)(ulong)command.ExecuteScalar();
         }
     }
 }
