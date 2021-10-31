@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Data;
 using BookingSystem.Models;
+using BookingSystem.Services;
 using BookingSystem.Storage;
+using MySql.Data.MySqlClient;
 
 namespace BookingSystem
 {
@@ -8,18 +11,36 @@ namespace BookingSystem
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("--- Booking System v1.0 ---");
+
             string connString = "server=localhost;port=3307;Database=customerDb;Uid=root;Pwd=testuser123";
-            CustomerStorage customerStorage = new(connString);
+            IDbConnection connection = new MySqlConnection(connString);
 
-            Console.WriteLine("Customer:");
-            foreach (Customer c in customerStorage.GetCustomers())
-                Console.WriteLine(c);
+            //Use of CustomerService
+            ICustomerStorage customerStorage = new CustomerStorage(connection);
+            ICustomerService customerService = new CustomerService(customerStorage);
+            Console.WriteLine("\nCustomer:");
+            customerService.GetCustomers().ForEach(c => Console.WriteLine($" - {c}"));
 
-            EmployeeStorage employeeStorage = new(connString);
+            //Use of EmployeeService
+            IEmployeeStorage employeeStorage = new EmployeeStorage(connection);
+            IEmployeeService employeeService = new EmployeeService(employeeStorage);
+            Console.WriteLine("\nEmployees:");
+            employeeService.GetEmployees().ForEach(e => Console.WriteLine($" - {e}"));
 
-            Console.WriteLine("Customer:");
-            foreach (Employee c in employeeStorage.GetEmployees())
-                Console.WriteLine(c);
+            //Use of BookingService
+
+            IBookingStorage bookingStorage = new BookingStorage(connection);
+            ISmsService smsService = new SmsServiceDummy();
+            IBookingService bookingService = new BookingService(bookingStorage, smsService, customerService);
+            Console.WriteLine("\nBookings:");
+            bookingService.GetBookings().ForEach(b => Console.WriteLine($" - {b}"));
+        }
+
+        internal class SmsServiceDummy : ISmsService
+        {
+            public bool SendSms(SmsMessage message)
+                => message != null;
         }
 
 
