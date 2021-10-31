@@ -1,0 +1,20 @@
+version: "3"
+services:
+  flyway-migrator:
+    image: flyway/flyway:latest
+    command: -teams -connectRetries=8 migrate
+    volumes:
+      - ./FlywayMigration/conf:/flyway/conf
+      - ./FlywayMigration/sql:/flyway/sql
+    depends_on:
+      - mysql-db
+    network_mode: host
+  
+  mysql-db:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=testuser123
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - 3307:3306
+    network_mode: bridge
