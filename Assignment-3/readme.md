@@ -1,5 +1,7 @@
 # Test assignment 3
 
+Made by cph-sn311, cph-av105, & cph-mf237
+
 Because Flyway only has an API for Java, I was limited in the amount I could use it for my integration tests. However, when I thought about it, I couldn’t see it as a problem because the integration tests would usually run as part of a Continues Integration pipeline which would be able to run the Flyway migration before the integration tests starts.
 
 The requirements in the assignments are quite basic which made it quite difficult to think of any relevant Unit Tests. That is why the unit tests for the service classes only tests whether the storage interface is called or not. The features simply don’t have any logic that can be tested.
