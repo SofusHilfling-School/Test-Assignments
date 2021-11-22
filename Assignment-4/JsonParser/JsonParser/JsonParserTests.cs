@@ -38,6 +38,30 @@ public class JsonParserTests
     }
 
     [Fact]
+    public void Serialize_ArrayWithDouble_RetunValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        double[] array = new double[] { 1.44, 2.2, 3.362123, 1.63201978555e30 };
+        string expectedResult = "[1.44,2.2,3.362123,1.63201978555E+30]";
+
+        string jsonResult = jsonParser.Serialize(array);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_ArrayWithDecimal_RetunValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        decimal[] array = new decimal[] { 1.12983479012364m, 2.312498732190847123m, 3.219834712309560m };
+        string expectedResult = "[1.12983479012364,2.312498732190847123,3.219834712309560]";
+
+        string jsonResult = jsonParser.Serialize(array);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
     public void Serialize_ArrayWithBool_RetunValidJson()
     {
         IJsonParser jsonParser = new JsonParser();
