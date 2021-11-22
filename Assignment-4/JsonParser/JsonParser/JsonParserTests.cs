@@ -5,12 +5,15 @@ namespace JsonParser;
 public class JsonParserTests
 {
     [Fact]
-    public void Serialize_NullObject_ThrowArgumentNullException()
+    public void Serialize_NullObject_ReturnValidJson()
     {
         IJsonParser parser = new JsonParser();
         object? data = null;
+        string expectedResult = "null";
 
-        Assert.Throws<ArgumentNullException>(() => parser.Serialize(data));
+        string jsonResult = parser.Serialize(data);
+
+        Assert.Equal(expectedResult, jsonResult);
     }
 
     [Fact]

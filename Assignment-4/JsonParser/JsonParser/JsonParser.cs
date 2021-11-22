@@ -20,7 +20,7 @@ public class JsonParser : IJsonParser
     public string Serialize<T>(T data)
         => data switch
         {
-            null => throw new ArgumentNullException(nameof(data)),
+            null => "null",
             IList array => HandleArray(array),
             _ => throw new NotImplementedException()
         };
