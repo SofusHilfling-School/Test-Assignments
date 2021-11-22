@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿using System.Collections;
+using Xunit;
 
 namespace JsonParser;
 public class JsonParserTests
@@ -102,6 +103,18 @@ public class JsonParserTests
         IJsonParser jsonParser = new JsonParser();
         string[] array = new string[] { "\"", "\\" };
         string expectedResult = "[\"\\\"\",\"\\\\\"]";
+
+        string jsonResult = jsonParser.Serialize(array);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_ArrayWithMixedTypes_RetunValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        ArrayList array = new ArrayList { true, "hello World!", 5000 };
+        string expectedResult = "[true,\"hello World!\",5000]";
 
         string jsonResult = jsonParser.Serialize(array);
 

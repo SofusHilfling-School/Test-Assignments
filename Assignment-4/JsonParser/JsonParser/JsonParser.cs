@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections;
+using System.Text;
 
 namespace JsonParser;
 
@@ -19,20 +20,20 @@ public class JsonParser : IJsonParser
         => data switch
         {
             null => throw new ArgumentNullException(nameof(data)),
-            Array array => HandleArray(array),
+            IList array => HandleArray(array),
             _ => throw new NotImplementedException()
         };
     
-    private string HandleArray(Array array)
+    private string HandleArray(IList array)
     {
-        if (array.Length == 0)
+        if (array.Count == 0)
             return "[]";
 
         StringBuilder builder = new StringBuilder();
         builder.Append('[');
-        for (int index = 0; index < array.Length; index++)
+        for (int index = 0; index < array.Count; index++)
         {
-            string result = array.GetValue(index) switch
+            string result = array[index] switch
             {
                 string s => HandleString(s),
                 int i => i.ToString(),
