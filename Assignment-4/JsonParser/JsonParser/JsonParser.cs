@@ -30,16 +30,37 @@ public class JsonParser : IJsonParser
 
         StringBuilder builder = new StringBuilder();
         builder.Append('[');
-        for (int i = 0; i < array.Length; i++)
+        for (int index = 0; index < array.Length; index++)
         {
-            object? obj = array.GetValue(i);
-            builder.Append($"{obj}".ToLower());
-           
-            builder.Append(',');
+            string result = array.GetValue(index) switch
+            {
+                string s => HandleString(s),
+                int i => i.ToString(),
+                bool b => b.ToString().ToLower(),
+                _ => throw new NotImplementedException()
+            };
+            builder.Append($"{result},");
         }
         builder.Remove(builder.Length - 1, 1);
         builder.Append(']');
             
+        return builder.ToString();
+    }
+
+    private string HandleString(string str)
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.Append('"');
+        foreach (char c in str)
+        {
+            if (c == '"')
+                builder.Append("\\\"");
+            else if (c == '\\')
+                builder.Append("\\\\");
+            else
+                builder.Append(c);
+        }
+        builder.Append('"');
         return builder.ToString();
     }
 }
