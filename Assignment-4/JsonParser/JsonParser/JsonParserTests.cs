@@ -144,4 +144,16 @@ public class JsonParserTests
 
         Assert.Equal(expectedResult, jsonResult);
     }
+
+    [Fact]
+    public void Serialize_ArrayWithNull_RetunValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        object?[] array = new object?[] { null, "hello World!" };
+        string expectedResult = "[null,\"hello World!\"]";
+
+        string jsonResult = jsonParser.Serialize(array);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
 }

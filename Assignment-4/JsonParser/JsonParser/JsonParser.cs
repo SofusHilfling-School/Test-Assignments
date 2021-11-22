@@ -52,6 +52,7 @@ public class JsonParser : IJsonParser
                 decimal d => d.ToString(CultureInfo.InvariantCulture),
                 nint ni => ni.ToString(),
                 nuint nui => nui.ToString(),
+                null => "null",
                 _ => throw new NotImplementedException()
             };
             builder.Append($"{result},");
