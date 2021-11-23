@@ -22,6 +22,21 @@ public class JsonParser : IJsonParser
         {
             null => "null",
             IList array => HandleArray(array),
+            string s => HandleString(s),
+            bool b => b.ToString().ToLower(),
+            int i => i.ToString(),
+            sbyte sb => sb.ToString(),
+            byte b => b.ToString(),
+            short s => s.ToString(),
+            ushort s => s.ToString(),
+            uint s => s.ToString(),
+            long l => l.ToString(),
+            ulong ul => ul.ToString(),
+            float f => f.ToString(CultureInfo.InvariantCulture),
+            double d => d.ToString(CultureInfo.InvariantCulture),
+            decimal d => d.ToString(CultureInfo.InvariantCulture),
+            nint ni => ni.ToString(),
+            nuint nui => nui.ToString(),
             _ => throw new NotImplementedException()
         };
     
@@ -35,26 +50,7 @@ public class JsonParser : IJsonParser
        
         for (int index = 0; index < array.Count; index++)
         {
-            string result = array[index] switch
-            {
-                string s => HandleString(s),
-                bool b => b.ToString().ToLower(),
-                int i => i.ToString(),
-                sbyte sb => sb.ToString(),
-                byte b => b.ToString(),
-                short s => s.ToString(),
-                ushort s => s.ToString(),
-                uint s => s.ToString(),
-                long l => l.ToString(),
-                ulong ul => ul.ToString(),
-                float f => f.ToString(CultureInfo.InvariantCulture),
-                double d => d.ToString(CultureInfo.InvariantCulture),
-                decimal d => d.ToString(CultureInfo.InvariantCulture),
-                nint ni => ni.ToString(),
-                nuint nui => nui.ToString(),
-                null => "null",
-                _ => throw new NotImplementedException()
-            };
+            string result = Serialize(array[index]);
             builder.Append($"{result},");
         }
         builder.Remove(builder.Length - 1, 1);

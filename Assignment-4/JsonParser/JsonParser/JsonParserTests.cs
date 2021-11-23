@@ -17,6 +17,42 @@ public class JsonParserTests
     }
 
     [Fact]
+    public void Serialize_Int_ReturnValidJson()
+    {
+        IJsonParser parser = new JsonParser();
+        int data = 1;
+        string expectedResult = "1";
+
+        string jsonResult = parser.Serialize(data);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_String_ReturnValidJson()
+    {
+        IJsonParser parser = new JsonParser();
+        string data = "This is a random text!";
+        string expectedResult = "\"This is a random text!\"";
+
+        string jsonResult = parser.Serialize(data);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_Double_ReturnValidJson()
+    {
+        IJsonParser parser = new JsonParser();
+        double data = 1.57912e58;
+        string expectedResult = "1.57912E+58";
+
+        string jsonResult = parser.Serialize(data);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
     public void Serialize_EmptyArray_ReutrnValidJson()
     {
         IJsonParser jsonParser = new JsonParser();
@@ -152,7 +188,7 @@ public class JsonParserTests
     public void Serialize_ArrayWithNull_RetunValidJson()
     {
         IJsonParser jsonParser = new JsonParser();
-        object?[] array = new object?[] { null, "hello World!" };
+        string?[] array = new string?[] { null, "hello World!" };
         string expectedResult = "[null,\"hello World!\"]";
 
         string jsonResult = jsonParser.Serialize(array);
