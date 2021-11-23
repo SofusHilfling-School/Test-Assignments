@@ -207,4 +207,118 @@ public class JsonParserTests
 
         Assert.Equal(expectedResult, jsonResult);
     }
+
+    [Fact]
+    public void Serialize_EmptyObject_ReturnValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        object obj = new object();
+        string expectedResult = "{}";
+
+        string jsonResult = jsonParser.Serialize(obj);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_ObjectWithStringProperty_ReturnValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        var obj = new { Text = "Hello World!" };
+        string expectedResult = "{\"Text\":\"Hello World!\"}";
+
+        string jsonResult = jsonParser.Serialize(obj);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_ObjectWithIntProperty_ReturnValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        var obj = new { Count = 42 };
+        string expectedResult = "{\"Count\":42}";
+
+        string jsonResult = jsonParser.Serialize(obj);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_ObjectWithArray_ReturnValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        var obj = new { Texts = new string[] { "Hello", "World" } };
+        string expectedResult = "{\"Texts\":[\"Hello\",\"World\"]}";
+
+        string jsonResult = jsonParser.Serialize(obj);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_ObjectWithDouble_ReturnValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        var obj = new { Price = 3.14159 };
+        string expectedResult = "{\"Price\":3.14159}";
+
+        string jsonResult = jsonParser.Serialize(obj);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_ObjectWithBoolean_ReturnValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        var obj = new { Texts = new string[] { "Hello", "World" } };
+        string expectedResult = "{\"Texts\":[\"Hello\",\"World\"]}";
+
+        string jsonResult = jsonParser.Serialize(obj);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+    [Fact]
+    public void Serialize_ObjectWithComplexType_ReturnValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        var obj = new { Person = new { Name = "John", Age = 69 } };
+        string expectedResult = "{\"Person\":{\"Name\":\"John\",\"Age\":69}}";
+
+        string jsonResult = jsonParser.Serialize(obj);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_ObjectWithMultipleProperties_ReturnValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        var obj = new 
+        { 
+            Texts = new string[] { "Hello", "World" },
+            Author = "John Doe",
+            Year = 2007,
+            AverageRating = 4.4,
+            IsAvailable = true
+        };
+        string expectedResult = "{\"Texts\":[\"Hello\",\"World\"],\"Author\":\"John Doe\",\"Year\":2007,\"AverageRating\":4.4,\"IsAvailable\":true}";
+
+        string jsonResult = jsonParser.Serialize(obj);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
+
+    [Fact]
+    public void Serialize_ArrayWithComplexType_ReturnValidJson()
+    {
+        IJsonParser parser = new JsonParser();
+        string expectedResult = "[{\"Name\":\"John\",\"Age\":24},{\"Name\":\"Jane\",\"Age\":42}]";
+        var array = new[] { new { Name = "John", Age = 24 }, new { Name = "Jane", Age = 42 } };
+        
+        string jsonResult = parser.Serialize(array);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
 }

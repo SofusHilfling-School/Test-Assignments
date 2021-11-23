@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Text;
 using System.Linq;
+using System.Reflection;
 
 namespace JsonParser;
 
@@ -38,9 +39,30 @@ public class JsonParser : IJsonParser
             decimal d => d.ToString(CultureInfo.InvariantCulture),
             nint ni => ni.ToString(),
             nuint nui => nui.ToString(),
-            _ => throw new NotImplementedException()
+            object obj => HandleComplexType(obj)
         };
-    
+
+    private string HandleComplexType<T>(T obj) where T : notnull
+    {
+        PropertyInfo[] props = obj.GetType().GetProperties();
+
+        if (!props.Any())
+            return "{}";
+
+        StringBuilder builder = new StringBuilder();
+        builder.Append('{');
+
+        foreach (PropertyInfo prop in props)
+        {
+            string value = Serialize(prop.GetValue(obj));
+            builder.Append($"\"{prop.Name}\":{value},");
+        }
+
+        builder.Remove(builder.Length - 1, 1);
+        builder.Append('}');
+        return builder.ToString();
+    }
+
     private string HandleArray(IEnumerable list)
     {
         if (!list.GetEnumerator().MoveNext())
