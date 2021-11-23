@@ -195,4 +195,16 @@ public class JsonParserTests
 
         Assert.Equal(expectedResult, jsonResult);
     }
+
+    [Fact]
+    public void Serialize_IEnumerableInputType_RetunValidJson()
+    {
+        IJsonParser jsonParser = new JsonParser();
+        IEnumerable array = Enumerable.Range(1, 5);
+        string expectedResult = "[1,2,3,4,5]";
+
+        string jsonResult = jsonParser.Serialize(array);
+
+        Assert.Equal(expectedResult, jsonResult);
+    }
 }

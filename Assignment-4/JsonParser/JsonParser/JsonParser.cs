@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Globalization;
 using System.Text;
+using System.Linq;
 
 namespace JsonParser;
 
@@ -21,8 +22,8 @@ public class JsonParser : IJsonParser
         => data switch
         {
             null => "null",
-            IList array => HandleArray(array),
             string s => HandleString(s),
+            IEnumerable array => HandleArray(array),
             bool b => b.ToString().ToLower(),
             int i => i.ToString(),
             sbyte sb => sb.ToString(),
@@ -40,19 +41,20 @@ public class JsonParser : IJsonParser
             _ => throw new NotImplementedException()
         };
     
-    private string HandleArray(IList array)
+    private string HandleArray(IEnumerable list)
     {
-        if (array.Count == 0)
+        if (!list.GetEnumerator().MoveNext())
             return "[]";
 
         StringBuilder builder = new StringBuilder();
         builder.Append('[');
        
-        for (int index = 0; index < array.Count; index++)
+        foreach(var item in list)
         {
-            string result = Serialize(array[index]);
+            string result = Serialize(item);
             builder.Append($"{result},");
         }
+
         builder.Remove(builder.Length - 1, 1);
         builder.Append(']');
             
