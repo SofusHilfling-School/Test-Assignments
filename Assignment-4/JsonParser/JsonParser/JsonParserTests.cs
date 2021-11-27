@@ -23,6 +23,27 @@ public class JsonParserTests
     public void IsJsonValid_ValidArray_ReturnTrue(string input)
         => BaseAssertValidJson(input);
 
+    [Theory]
+    [InlineData("\"")]
+    [InlineData("\"\"\"")]
+    public void IsJsonValid_UnEquaalStringBeginAndEnd_ReturnFalse(string input)
+        => BaseAssertInvalidJson(input);
+
+    [Theory]
+    [InlineData("\"\\\"\"")]
+    [InlineData("\"hello\\\" world!\"")]
+    public void IsJsonValid_QuoteWithBackslashInfrontIsIgnored_ValidString(string input)
+        => BaseAssertValidJson(input);
+
+    [Theory]
+    [InlineData("\"string ]\"")]
+    [InlineData("\"string [\"")]
+    public void IsJsonValid_IgnoreSymbolsIfInsideString_ValidJson(string input)
+        => BaseAssertValidJson(input);
+
+    public void IsJsonValid__(string input)
+        => BaseAssertInvalidJson(input);
+
     private void BaseAssertInvalidJson(string json)
     {
         IJsonParser parser = new JsonParser();

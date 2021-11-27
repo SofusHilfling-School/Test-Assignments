@@ -18,20 +18,27 @@ public class JsonParser : IJsonParser
     public bool IsJsonValid(string json)
     {
         int arrayOffset = 0;
-        foreach(char c in json)
+        int stringCounter = 0;
+        bool isInsideString() => stringCounter % 2 == 1;
+        for(int i = 0; i < json.Length; i++)
         {
-            if (c == '[')
+            if (json[i] == '[' && !isInsideString())
                 arrayOffset++;
-            else if (c == ']')
+            else if (json[i] == ']' && !isInsideString())
             {
                 if (arrayOffset <= 0)
                     return false;
                 else
                     arrayOffset--;
-            }   
+            }
+            else if (json[i] == '"')
+                if(i == 0 || json[i - 1] != '\\')
+                    stringCounter++;
         }
 
         if (arrayOffset != 0)
+            return false;
+        else if (stringCounter % 2 == 1)
             return false;
 
         return true;
