@@ -4,6 +4,45 @@ using Xunit;
 namespace JsonParser;
 public class JsonParserTests
 {
+    [Theory]
+    [InlineData("[[]")]
+    [InlineData("[]][]]][[")]
+    public void IsJsonValid_UnEqualArrayBeginAndEnd_ReturnFalse(string input)
+        => BaseAssertInvalidJson(input);
+
+    [Theory]
+    [InlineData("][")]
+    [InlineData("][[[][")]
+    [InlineData("[][][")]
+    public void IsJsonValid_ArrayBeginAndEndInvalidOrder_ReturnFalse(string input)
+        => BaseAssertInvalidJson(input);
+
+    [Theory]
+    [InlineData("[]")]
+    [InlineData("[][[][]]")]
+    public void IsJsonValid_ValidArray_ReturnTrue(string input)
+        => BaseAssertValidJson(input);
+
+    private void BaseAssertInvalidJson(string json)
+    {
+        IJsonParser parser = new JsonParser();
+
+        bool isValid = parser.IsJsonValid(json);
+
+        Assert.False(isValid);
+    }
+
+    private void BaseAssertValidJson(string json)
+    {
+        IJsonParser parser = new JsonParser();
+
+        bool isValid = parser.IsJsonValid(json);
+
+        Assert.True(isValid);
+    }
+
+    // Tests for Serialize method
+    #region Serialize
     [Fact]
     public void Serialize_NullObject_ReturnValidJson()
     {
@@ -321,4 +360,5 @@ public class JsonParserTests
 
         Assert.Equal(expectedResult, jsonResult);
     }
+    #endregion
 }

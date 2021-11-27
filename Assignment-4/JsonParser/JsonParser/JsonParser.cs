@@ -8,12 +8,35 @@ namespace JsonParser;
 
 public interface IJsonParser
 {
+    bool IsJsonValid(string json);
     string Serialize<T>(T data);
     T Deserialize<T>(string json);
 }
 
 public class JsonParser : IJsonParser
 {
+    public bool IsJsonValid(string json)
+    {
+        int arrayOffset = 0;
+        foreach(char c in json)
+        {
+            if (c == '[')
+                arrayOffset++;
+            else if (c == ']')
+            {
+                if (arrayOffset <= 0)
+                    return false;
+                else
+                    arrayOffset--;
+            }   
+        }
+
+        if (arrayOffset != 0)
+            return false;
+
+        return true;
+    }
+
     public T Deserialize<T>(string json)
     {
         throw new NotImplementedException();
