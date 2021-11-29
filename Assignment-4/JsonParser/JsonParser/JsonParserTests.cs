@@ -52,6 +52,9 @@ public class JsonParserTests
     [InlineData("trueblash")]
     [InlineData("falselallaal")]
     [InlineData("nulljustsomerandomtext")]
+    [InlineData("tru")]
+    [InlineData("fa")]
+    [InlineData("nul")]
     public void IsJsonValid_StaticValuesBeforeWithOtherChars_InvalidJson(string input)
         => BaseAssertInvalidJson(input);
 
