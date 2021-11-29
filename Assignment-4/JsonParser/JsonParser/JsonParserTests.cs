@@ -41,8 +41,26 @@ public class JsonParserTests
     public void IsJsonValid_IgnoreSymbolsIfInsideString_ValidJson(string input)
         => BaseAssertValidJson(input);
 
-    public void IsJsonValid__(string input)
+    [Theory]
+    [InlineData("lookhere")]
+    [InlineData("this is stupid")]
+    [InlineData("whatstringwouldthisbe")]
+    public void IsJsonValid_CharsOutsideString_InvalidJson(string input)
         => BaseAssertInvalidJson(input);
+
+    [Theory]
+    [InlineData("trueblash")]
+    [InlineData("falselallaal")]
+    [InlineData("nulljustsomerandomtext")]
+    public void IsJsonValid_StaticValuesBeforeWithOtherChars_InvalidJson(string input)
+        => BaseAssertInvalidJson(input);
+
+    [Theory]
+    [InlineData("true")]
+    [InlineData("false")]
+    [InlineData("null")]
+    public void IsJsonValid_ParseStaticValues_ValidJson(string input)
+        => BaseAssertValidJson(input);
 
     private void BaseAssertInvalidJson(string json)
     {

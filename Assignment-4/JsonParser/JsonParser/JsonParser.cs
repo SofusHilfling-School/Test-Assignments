@@ -20,20 +20,41 @@ public class JsonParser : IJsonParser
         int arrayOffset = 0;
         int stringCounter = 0;
         bool isInsideString() => stringCounter % 2 == 1;
-        for(int i = 0; i < json.Length; i++)
+        for (int i = 0; i < json.Length; i++)
         {
-            if (json[i] == '[' && !isInsideString())
+
+            if (json[i] == '"')
+            {
+                if (i == 0 || json[i - 1] != '\\')
+                    stringCounter++;
+            }
+            else if (isInsideString())
+                continue;
+            else if (json[i] == '[')
                 arrayOffset++;
-            else if (json[i] == ']' && !isInsideString())
+            else if (json[i] == ']')
             {
                 if (arrayOffset <= 0)
                     return false;
                 else
                     arrayOffset--;
             }
-            else if (json[i] == '"')
-                if(i == 0 || json[i - 1] != '\\')
-                    stringCounter++;
+            else if (json[i] == 'n' || json[i] == 't' || json[i] == 'f')
+            {
+                int remainingLength = (json.Length) - i;
+                Range range = new Range(i, i + 4);
+
+                if (remainingLength < 4)
+                    return false;
+                else if (remainingLength >= 5 && json[new Range(i, i + 5)].SequenceEqual("false"))
+                    i += 4;
+                else if (json[range].SequenceEqual("true") || json[range].SequenceEqual("null"))
+                    i += 3;
+                else
+                    return false;
+            }
+            else
+                return false;
         }
 
         if (arrayOffset != 0)
