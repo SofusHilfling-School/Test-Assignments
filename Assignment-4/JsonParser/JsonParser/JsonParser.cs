@@ -64,6 +64,29 @@ public class JsonParser : IJsonParser
 
                 isEndOfValue = true;
             }
+            else if (IsNumber(currentChar) || IsBasicMathChar(currentChar) || IsAdvancedMathChar(currentChar))
+            {
+                bool wasNumberBefore = i > 0 && (IsNumber(json[i - 1]));
+                if (IsAdvancedMathChar(currentChar) && !wasNumberBefore)
+                    return false;
+                if (IsAdvancedMathChar(currentChar))
+                    i++;
+                if (IsBasicMathChar(json[i]))
+                    i++;
+
+                bool numberAfterMathSign = false; 
+                while (i < json.Length && IsNumber(json[i]))
+                {
+                    i++;
+                    numberAfterMathSign = true;
+                }
+                i--;
+
+                if (!numberAfterMathSign)
+                    return false;
+
+                isEndOfValue = true;
+            }
             else
                 return false;
         }
@@ -74,6 +97,42 @@ public class JsonParser : IJsonParser
             return false;
 
         return true;
+    }
+
+    private bool IsNumber(char currentChar)
+    {
+        switch(currentChar)
+        {
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    private bool IsBasicMathChar(char currentChar)
+        => currentChar == '-' || currentChar == '+';
+    private bool IsAdvancedMathChar(char currentChar)
+    {
+        switch (currentChar) 
+        {
+            case 'e':
+            case 'E':
+            case '.':
+                return true;
+            default:
+                return false;
+        }
+
     }
 
     public T Deserialize<T>(string json)

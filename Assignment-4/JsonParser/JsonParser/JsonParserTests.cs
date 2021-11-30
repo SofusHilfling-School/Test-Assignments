@@ -84,6 +84,139 @@ public class JsonParserTests
     public void IsJsonValid_IgnoreCommaInsideString_ValidJson()
         => BaseAssertValidJson(json: "\"blash, llallal, lalshd\"");
 
+
+    [Theory]
+    [InlineData("390127463782164")]
+    [InlineData("12387714")]
+    [InlineData("0")]
+    [InlineData("1")]
+    [InlineData("2")]
+    [InlineData("3")]
+    [InlineData("4")]
+    [InlineData("5")]
+    [InlineData("6")]
+    [InlineData("7")]
+    [InlineData("8")]
+    [InlineData("9")]
+    public void IsJsonValid_NatrualPositiveNumbers_ValidJson(string input)
+        => BaseAssertValidJson(input);
+
+    [Theory]
+    [InlineData("-213894756")]
+    [InlineData("-8997234656634")]
+    [InlineData("-0")]
+    [InlineData("-1")]
+    [InlineData("-2")]
+    [InlineData("-3")]
+    [InlineData("-4")]
+    [InlineData("-5")]
+    [InlineData("-6")]
+    [InlineData("-7")]
+    [InlineData("-8")]
+    [InlineData("-9")]
+    public void IsJsonValid_NatrualNegativeNumbers_ValidJson(string input)
+        => BaseAssertValidJson(input);
+
+    [Theory]
+    [InlineData("-blash")]
+    [InlineData("-true")]
+    [InlineData("-")]
+    [InlineData("-null")]
+    [InlineData("-false")]
+    [InlineData("-t352")]
+    [InlineData("---")]
+    public void IsJsonValid_MinusBeforeNonNumbers_InvalidJson(string input)
+        => BaseAssertInvalidJson(input);
+
+    [Theory]
+    [InlineData("+213894756")]
+    [InlineData("+8997234656634")]
+    [InlineData("+0")]
+    [InlineData("+1")]
+    [InlineData("+2")]
+    [InlineData("+3")]
+    [InlineData("+4")]
+    [InlineData("+5")]
+    [InlineData("+6")]
+    [InlineData("+7")]
+    [InlineData("+8")]
+    [InlineData("+9")]
+    public void IsJsonValid_PlusBeforeNumbers_ValidJson(string input)
+        => BaseAssertValidJson(input);
+
+    [Theory]
+    [InlineData("+blash")]
+    [InlineData("+true")]
+    [InlineData("+")]
+    [InlineData("+null")]
+    [InlineData("+false")]
+    [InlineData("+t352")]
+    [InlineData("+++")]
+    public void IsJsonValid_PlusBeforeNonNumbers_InvalidJson(string input)
+        => BaseAssertInvalidJson(input);
+
+    [Theory]
+    [InlineData("Eblash")]
+    [InlineData("Etrue")]
+    [InlineData("E")]
+    [InlineData("Enull")]
+    [InlineData("Efalse")]
+    [InlineData("Et352")]
+    [InlineData("eblash")]
+    [InlineData("etrue")]
+    [InlineData("e")]
+    [InlineData("enull")]
+    [InlineData("efalse")]
+    [InlineData("et352")]
+    [InlineData("eee")]
+    [InlineData("EEE")]
+    [InlineData("eE")]
+    [InlineData("Ee")]
+    public void IsJsonValid_ExponentBeforeNonNumbers_InvalidJson(string input)
+        => BaseAssertInvalidJson(input);
+
+    [Theory]
+    [InlineData("500e3")]
+    [InlineData("32457E343")]
+    [InlineData("0e+55")]
+    [InlineData("500e-3")]
+    [InlineData("753E+5")]
+    [InlineData("97E-773")]
+    [InlineData("-5e5")]
+    [InlineData("+75e3")]
+    [InlineData("+32E42")]
+    [InlineData("-234E88")]
+    public void IsJsonValid_NumberWithExponent_ValidJson(string input)
+        => BaseAssertValidJson(input);
+
+    [Fact]
+    public void IsJsonValid_ExponentBeforeNumbers_ValidJson()
+        => BaseAssertInvalidJson("e373");
+
+    [Theory]
+    [InlineData(".blash")]
+    [InlineData(".true")]
+    [InlineData(".")]
+    [InlineData(".null")]
+    [InlineData(".false")]
+    [InlineData(".t352")]
+    [InlineData("...")]
+    public void IsJsonValid_DecimalBeforeNonNumbers_InvalidJson(string input)
+        => BaseAssertInvalidJson(input);
+
+    [Theory]
+    [InlineData("500.3")]
+    [InlineData("0.55")]
+    [InlineData("-753.5")]
+    [InlineData("+124.878")]
+    public void IsJsonValid_NumberWithDecimal_ValidJson(string input)
+        => BaseAssertValidJson(input);
+
+    [Fact]
+    public void IsJsonValid_DecimalBeforeNumbers_ValidJson()
+        => BaseAssertInvalidJson(".373");
+
+
     private void BaseAssertInvalidJson(string json)
     {
         IJsonParser parser = new JsonParser();
