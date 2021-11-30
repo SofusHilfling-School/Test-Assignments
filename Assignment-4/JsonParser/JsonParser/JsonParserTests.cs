@@ -19,7 +19,7 @@ public class JsonParserTests
 
     [Theory]
     [InlineData("[]")]
-    [InlineData("[][[][]]")]
+    [InlineData("[[[]]]")]
     public void IsJsonValid_ValidArray_ReturnTrue(string input)
         => BaseAssertValidJson(input);
 
@@ -64,6 +64,25 @@ public class JsonParserTests
     [InlineData("null")]
     public void IsJsonValid_ParseStaticValues_ValidJson(string input)
         => BaseAssertValidJson(input);
+
+    [Theory]
+    [InlineData("[\"test\",\"test\"]")]
+    [InlineData("[[],[]]")]
+    [InlineData("[\"string\",false,true,null]")]
+    public void IsJsonValid_CommaAfterEndOfValue_ValidJson(string input)
+        => BaseAssertValidJson(input);
+
+    [Theory]
+    [InlineData("\"test\",\"test\"")]
+    [InlineData("[],[]")]
+    [InlineData("true,false,null")]
+    [InlineData("null,")]
+    public void IsJsonValid_CommaAfterEndOfValue_InvalidJson(string input)
+        => BaseAssertInvalidJson(input);
+
+    [Fact]
+    public void IsJsonValid_IgnoreCommaInsideString_ValidJson()
+        => BaseAssertValidJson(json: "\"blash, llallal, lalshd\"");
 
     private void BaseAssertInvalidJson(string json)
     {

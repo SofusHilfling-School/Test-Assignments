@@ -20,26 +20,35 @@ public class JsonParser : IJsonParser
         int arrayOffset = 0;
         int stringCounter = 0;
         bool isInsideString() => stringCounter % 2 == 1;
+        bool isEndOfValue = false;
         for (int i = 0; i < json.Length; i++)
         {
-
-            if (json[i] == '"')
+            char currentChar = json[i];
+            if (isEndOfValue && i != json.Length - 1)
+            {
+                if(currentChar == ',' && arrayOffset > 0)
+                    continue;
+            }
+            if (currentChar == '"')
             {
                 if (i == 0 || json[i - 1] != '\\')
                     stringCounter++;
+
+                isEndOfValue = !isInsideString();
             }
             else if (isInsideString())
                 continue;
-            else if (json[i] == '[')
+            else if (currentChar == '[')
                 arrayOffset++;
-            else if (json[i] == ']')
+            else if (currentChar == ']')
             {
                 if (arrayOffset <= 0)
                     return false;
-                else
-                    arrayOffset--;
+                
+                arrayOffset--;
+                isEndOfValue = true;
             }
-            else if (json[i] == 'n' || json[i] == 't' || json[i] == 'f')
+            else if (currentChar == 'n' || currentChar == 't' || currentChar == 'f')
             {
                 int remainingLength = (json.Length) - i;
                 Range range = new Range(i, i + 4);
@@ -52,6 +61,8 @@ public class JsonParser : IJsonParser
                     i += 3;
                 else
                     return false;
+
+                isEndOfValue = true;
             }
             else
                 return false;
