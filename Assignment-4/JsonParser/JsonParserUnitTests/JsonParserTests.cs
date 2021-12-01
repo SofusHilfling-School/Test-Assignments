@@ -1,7 +1,8 @@
-﻿using System.Collections;
+﻿using JsonParserLibrary;
+using System.Collections;
 using Xunit;
 
-namespace JsonParser;
+namespace JsonParserUnitTests;
 public class JsonParserTests
 {
     [Theory]
@@ -215,7 +216,6 @@ public class JsonParserTests
     [Fact]
     public void IsJsonValid_DecimalBeforeNumbers_ValidJson()
         => BaseAssertInvalidJson(".373");
-
 
     private void BaseAssertInvalidJson(string json)
     {

@@ -1,0 +1,9 @@
+{
+    "stryker-config":
+    {
+        "solution": "../JsonParser.sln",
+        "project": "JsonParser.csproj",
+        "test-projects": ["JsonParser.csproj"],
+        "mutate": ["JsonParser.cs"]
+    }
+}
