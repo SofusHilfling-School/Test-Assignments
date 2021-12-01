@@ -33,3 +33,8 @@ How do you use a predicate to verify the properties of the arguments given to a 
 ```java
 verify(mockedObject).methodOnObject(argThat(someString -> someString.length() > 5));
 ```
+
+## Test Reports
+
+- [Coverage report](https://github.com/cph-sn311/Test-Assignments/blob/main/Assignment-4/Report/TestReport.html)
+- [Mutation Testing Report](https://github.com/cph-sn311/Test-Assignments/blob/main/Assignment-4/Report/mutation-report.html)
